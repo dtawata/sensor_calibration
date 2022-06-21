@@ -369,16 +369,6 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 /***/ }),
 
-/***/ "./src/components/Chart.js":
-/*!*********************************!*\
-  !*** ./src/components/Chart.js ***!
-  \*********************************/
-/***/ (() => {
-
-eval("// import React from 'react';\n// // import { Bar } from 'chart.js';\n// import { Chart } from 'react-chartjs-2';\n// import { Chart as ChartJS, LineController, LineElement, PointElement, LinearScale, Title } from 'chart.js';\n// const Chart = (props) => {\n//   const chartData = {\n//     labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],\n//     datasets: [{\n//         label: '# of Votes',\n//         data: [12, 19, 3, 5, 2, 3],\n//         backgroundColor: [\n//             'rgba(255, 99, 132, 0.2)',\n//             'rgba(54, 162, 235, 0.2)',\n//             'rgba(255, 206, 86, 0.2)',\n//             'rgba(75, 192, 192, 0.2)',\n//             'rgba(153, 102, 255, 0.2)',\n//             'rgba(255, 159, 64, 0.2)'\n//         ],\n//         borderColor: [\n//             'rgba(255, 99, 132, 1)',\n//             'rgba(54, 162, 235, 1)',\n//             'rgba(255, 206, 86, 1)',\n//             'rgba(75, 192, 192, 1)',\n//             'rgba(153, 102, 255, 1)',\n//             'rgba(255, 159, 64, 1)'\n//         ],\n//         borderWidth: 1\n//     }]\n// };\n//   return (\n//     <div>\n//       <div>wow</div>\n//       <Chart type='line' data={chartData} width={1000} height={1000} />\n//     </div>\n//   );\n// };\n// export default Chart;\n\n//# sourceURL=webpack://sensor_calibration/./src/components/Chart.js?");
-
-/***/ }),
-
 /***/ "./src/components/Generator.js":
 /*!*************************************!*\
   !*** ./src/components/Generator.js ***!
@@ -408,7 +398,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ \"./node_modules/react-dom/client.js\");\n/* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/App */ \"./src/components/App.js\");\nObject(function webpackMissingModule() { var e = new Error(\"Cannot find module './components/Test'\"); e.code = 'MODULE_NOT_FOUND'; throw e; }());\n/* harmony import */ var _components_Chart__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/Chart */ \"./src/components/Chart.js\");\n/* harmony import */ var _components_Chart__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_components_Chart__WEBPACK_IMPORTED_MODULE_4__);\n\n\n\n\n\nvar container = document.getElementById('app');\nvar root = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(container);\nroot.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_App__WEBPACK_IMPORTED_MODULE_2__[\"default\"], null));\n\n//# sourceURL=webpack://sensor_calibration/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ \"./node_modules/react-dom/client.js\");\n/* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/App */ \"./src/components/App.js\");\n\n\n\nvar container = document.getElementById('app');\nvar root = react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot(container);\nroot.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_components_App__WEBPACK_IMPORTED_MODULE_2__[\"default\"], null));\n\n//# sourceURL=webpack://sensor_calibration/./src/index.js?");
 
 /***/ }),
 
