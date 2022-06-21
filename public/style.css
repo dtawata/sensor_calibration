@@ -12,22 +12,41 @@ html, body {
 }
 
 .container {
-  display: flex;
-  justify-content: flex-start;
   max-width: 1200px;
-  margin: 50px auto;
+  margin: 0 auto;
+}
+
+nav {
+  padding: 30px 0;
+  border-bottom: 1px solid #eee;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  list-style: none;
+}
+
+nav li {
+  font-size: 16px;
+  margin: 0 40px;
+  cursor: pointer;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+nav li.active {
+  text-decoration: underline;
+}
+
+nav li:hover {
+  text-decoration: underline;
 }
 
 .generator {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 360px;
-  padding: 20px;
-  background-color: #444;
-  border: 1px solid #eee;
-  border-radius: 4px;
-  color: #fff;
+  justify-content: center;
 }
 
 .generator .title {
@@ -36,8 +55,20 @@ html, body {
   text-align: center;
 }
 
-.generator button {
-  width: 200px;
+.generator .command {
+  width: 320px;
+  margin: 20px;
+  padding: 20px;
+  background-color: #444;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.generator .command button {
+  display: block;
+  width: 70%;
+  margin: 0 auto;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -47,7 +78,125 @@ html, body {
   padding: 10px 20px;
 }
 
-.downloads {
+.generator .command .date {
+  display: block;
+  width: 70%;
+  margin: 0 auto 20px auto;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  color: #444;
+  font-size: 18px;
+  outline: none;
+}
+
+.generator .downloads {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px;
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #444;
+}
+
+.generator .link {
+  margin: 10px 0;
+}
+
+
+/* STEP 2: OUTPUT */
+.output {
+  display: flex;
+  justify-content: center;
+}
+
+.output .title {
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+  text-align: center;
+}
+
+.output .command {
+  width: 320px;
+  margin: 20px;
+  padding: 20px;
+  background-color: #444;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.output .command .file {
+  display: block;
+  width: 100%;
+  margin: 0 auto 30px auto;
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 18px;
+  outline: none;
+  text-align-last: center;
+}
+
+.output .command .flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.output .command .version {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.output .command .select {
+  display: block;
+  margin-left: 20px;
+  padding: 5px;
+  border-radius: 4px;
+  color: #444;
+  font-size: 18px;
+  outline: none;
+}
+
+.output .command button {
+  display: block;
+  width: 70%;
+  margin: 0 auto;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  color: #444;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 10px 20px;
+}
+
+.output .downloads {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 320px;
+  margin: 20px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #444;
+}
+
+
+
+
+
+
+
+.upload {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -58,14 +207,4 @@ html, body {
   border: 1px solid #eee;
   border-radius: 4px;
   color: #444;
-}
-
-.downloads .title {
-  margin-bottom: 20px;
-  letter-spacing: 1px;
-  text-align: center;
-}
-
-.download_link {
-  margin-bottom: 10px;
 }
