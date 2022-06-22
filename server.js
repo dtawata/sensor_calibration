@@ -105,7 +105,7 @@ app.post('/api/upload_scd/:version', (req, res) => {
     const sensors = [];
     fs.createReadStream(path.resolve(__dirname, 'csv', file.name))
     .pipe(csv.parse({ headers: true }))
-    .on('error', error => console.error(error))
+    .on('error', err => console.error(err))
     .on('data', async (row) => {
       if (!sensors.includes(row.sensor_id)) {
         sensors.push(row.sensor_id);
@@ -154,7 +154,7 @@ app.post('/api/upload_bcd/:version', (req, res) => {
     const sensors = [];
     fs.createReadStream(path.resolve(__dirname, 'csv', file.name))
     .pipe(csv.parse({ headers: true }))
-    .on('error', error => console.error(error))
+    .on('error', err => console.error(err))
     .on('data', async (row) => {
       if (!sensors.includes(row.sensor_id)) {
         sensors.push(row.sensor_id);
@@ -162,7 +162,7 @@ app.post('/api/upload_bcd/:version', (req, res) => {
           baseStationId = row.base_station_id;
         }
       }
-      const insert = await addSensorData(row);
+      const insert = await addSensorDataBase(row);
     })
     .on('end', async (rowCount) => {
       const entries = [['validation_date', 'algorithm_version', 'base_station_id', 'sensor_id', 'accuracy', 'precision']];
@@ -198,16 +198,13 @@ app.get('/api/chart', async (req, res) => {
 
 app.get('/api/chart_sco', async (req, res) => {
   const { startDate, endDate, calibrationFile, algorithmVersion, sensorId } = req.query;
-  console.log(req.query);
   const data = await getSensorCalibrationOutput({ startDate, endDate, calibrationFile, algorithmVersion, sensorId,  });
-  console.log('data', data);
   res.send(data);
 });
 
 app.get('/api/chart_pvo', async (req, res) => {
   const { startDate, endDate, version, baseStationId, sensorId } = req.query;
   const data = await getPerfomanceValidationOutput({ startDate, endDate, version, baseStationId, sensorId });
-  console.log('data', data);
   res.send(data);
 });
 
