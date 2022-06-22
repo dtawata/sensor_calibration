@@ -7,8 +7,8 @@
   https://docs.timescale.com/install/latest/self-hosted/
 3. Copy `.env.example` file and rename to `.env`.
 4. Fill in `POSTGRES_USER`, `POSTGRES_PASSWORD`, and change `POSTGRES_PORT` if necessary. 
-4. Run `psql -f schema.sql` to create the database and tables.
-5. Run `npm install` on root directory.
+4. Run `psql -f schema.sql` on root directory.
+5. Run `npm install`.
 6. Run `npm run build`.
 7. Run `npm start`.
 8. Go to http://localhost:3000 to access application.
