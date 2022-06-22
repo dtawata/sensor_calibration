@@ -5,7 +5,7 @@ const path = require('path');
 const csv = require('fast-csv');
 const { writeToPath } = require('@fast-csv/format');
 const csvUpload = require("express-fileupload");
-const { getSensors, getBaseStations, getAlgorithms, addSensorData, addSensorCalibrationData, addBaseCalibrationData, addSensorCalibrationOutput, addPerformanceValidationOutput, getSensorData, getUniqueSensors, getUniqueBaseStations, getUniqueBaseStationsPVO, getUniqueSensorsBase, getUniqueCalibrationFiles, getUniqueAlgorithmVersionsSCO, getUniqueAlgorithmVersionsPVO, getUniqueSensorsSCO, getSensorCalibrationOutput, getUniqueSensorsBasePVO, getPerfomanceValidationOutput } = require('./lib/db');
+const { getSensors, getBaseStations, getAlgorithms, addSensorData, addSensorCalibrationData, addBaseCalibrationData, addSensorCalibrationOutput, addPerformanceValidationOutput, getSensorData, getUniqueSensors, getUniqueBaseStations, getUniqueBaseStationsPVO, getUniqueSensorsBase, getUniqueCalibrationFiles, getUniqueAlgorithmVersionsSCO, getUniqueAlgorithmVersionsPVO, getUniqueSensorsSCO, getSensorCalibrationOutput, getUniqueSensorsBasePVO, getPerfomanceValidationOutput, addSensorDataBase } = require('./lib/db');
 
 app.use(csvUpload());
 app.use(express.static('public'));
@@ -167,8 +167,9 @@ app.post('/api/upload_bcd/:version', (req, res) => {
     .on('end', async (rowCount) => {
       const entries = [['validation_date', 'algorithm_version', 'base_station_id', 'sensor_id', 'accuracy', 'precision']];
       for (let sensor of sensors) {
-        const accuracy = Math.random().toFixed(2);
-        const precision = Math.random().toFixed(2);
+        let accuracy = (Math.floor(Math.random() * (1000 - 200) + 200)/1000).toFixed(2);
+        if (Math.floor(Math.random() * 100) >= 80) accuracy = (5).toFixed(2);
+        const precision = (Math.floor(Math.random() * (500 - 100) + 100)/1000).toFixed(2);
         entries.push([date, version, baseStationId, sensor, accuracy, precision]);
       }
       const insert = await addPerformanceValidationOutput(entries.slice(1));

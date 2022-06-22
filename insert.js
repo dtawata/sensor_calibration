@@ -114,8 +114,9 @@ const createBaseCalibrationData = async () => {
     for (let version of versions) {
       const versionName = version.major + '.' + version.minor + '.' + version.patch;
       for (let sensor of sensors) {
-        const accuracy = Math.random().toFixed(2);
-        const precision = Math.random().toFixed(2);
+        let accuracy = (Math.floor(Math.random() * (1000 - 200) + 200)/1000).toFixed(2);
+        if (Math.floor(Math.random() * 100) >= 80) accuracy = (5).toFixed(2);
+        const precision = (Math.floor(Math.random() * (500 - 100) + 100)/1000).toFixed(2)
         entriesPVO.push([date, versionName, baseStation.id, sensor.id, accuracy, precision]);
       }
       const insert = await addPerformanceValidationOutput(entriesPVO);
