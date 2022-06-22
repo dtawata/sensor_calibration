@@ -191,13 +191,8 @@ app.get('/api/algorithms', async (req, res) => {
 });
 
 app.get('/api/chart', async (req, res) => {
-  console.log('api/chart', req.query);
-  let { sensorId, startDate, endDate } = req.query;
-  startDate =  new Date(startDate);
-  endDate = new Date(endDate);
-
+  const { sensorId, startDate, endDate } = req.query;
   const data = await getSensorData({ sensorId, startDate, endDate });
-  console.log('data', data);
   res.send(data);
 });
 
@@ -217,9 +212,7 @@ app.get('/api/chart_pvo', async (req, res) => {
 });
 
 app.get('/api/unique_sensors', async (req, res) => {
-  let { file, start, end } = req.query;
-  start = new Date(start);
-  end = new Date(end);
+  const { file, start, end } = req.query;
   if (file === 'scd') {
     const uniqueSensors = await getUniqueSensors({ start, end });
     res.send(uniqueSensors);
@@ -244,9 +237,7 @@ app.get('/api/unique_sensors_sco', async (req, res) => {
 });
 
 app.get('/api/unique_base_stations', async (req, res) => {
-  let { start, end } = req.query;
-  start = new Date(start);
-  end = new Date(end);
+  const { start, end } = req.query;
   const uniqueBaseStations = await getUniqueBaseStations({ start, end });
   for (let i = 0; i < uniqueBaseStations.length; i++) {
     if (!uniqueBaseStations[i].base_station_id) {

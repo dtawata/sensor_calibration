@@ -25,7 +25,7 @@ CREATE TABLE algorithms (
 
 CREATE TABLE sensor_data (
   datetime TIMESTAMPTZ NOT NULL,
-  base_station_id INTEGER DEFAULT 0,
+  base_station_id INTEGER,
   sensor_id INTEGER NOT NULL,
   x NUMERIC NOT NULL,
   y NUMERIC NOT NULL,
