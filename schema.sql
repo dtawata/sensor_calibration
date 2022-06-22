@@ -25,7 +25,7 @@ CREATE TABLE algorithms (
 
 CREATE TABLE sensor_data (
   datetime TIMESTAMPTZ NOT NULL,
-  base_station_id INTEGER,
+  base_station_id INTEGER DEFAULT 0,
   sensor_id INTEGER NOT NULL,
   x NUMERIC NOT NULL,
   y NUMERIC NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE sensor_calibration_output (
   id SERIAL NOT NULL,
   calibration_file VARCHAR(255),
   generation_date DATE DEFAULT CURRENT_DATE,
-  algorithm_id INTEGER NOT NULL,
+  algorithm_version VARCHAR(8) NOT NULL,
   sensor_id INTEGER NOT NULL,
   top_left NUMERIC NOT NULL,
   top_mid  NUMERIC NOT NULL,
@@ -71,7 +71,7 @@ CREATE TABLE sensor_calibration_output (
 CREATE TABLE performance_validation_output (
   id SERIAL NOT NULL,
   validation_date DATE DEFAULT CURRENT_DATE,
-  algorithm_id INTEGER NOT NULL,
+  algorithm_version VARCHAR(8) NOT NULL,
   base_station_id INTEGER NOT NULL,
   sensor_id INTEGER NOT NULL,
   accuracy NUMERIC NOT NULL,

@@ -190,21 +190,147 @@ nav li:hover {
   color: #444;
 }
 
+.output .link {
+  margin: 10px 0;
+}
 
+.chart {
+  padding: 20px 0;
+}
 
-
-
-
-
-.upload {
+/* .chart .options {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 360px;
-  margin-left: 30px;
+  padding: 20px 10px;
+} */
+
+/* .bigchart {
+  width: 1000px;
+  height: 100vh;
+  overflow-x: scroll;
+} */
+
+.config {
   padding: 20px;
-  background-color: #fff;
+}
+
+.date_container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.end_container {
+  margin-left: 20px;
+}
+
+.file_container {
+  margin-left: 40px;
+}
+
+.label {
+  font-size: 16px;
+}
+
+.start_date {
+  display: block;
+  margin-top: 5px;
+  padding: 10px 20px;
+  background-color: beige;
   border: 1px solid #eee;
   border-radius: 4px;
   color: #444;
+  font-size: 18px;
+  outline: none;
+}
+
+.end_date {
+  display: block;
+  margin-top: 5px;
+  padding: 10px 20px;
+  background-color: beige;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #444;
+  font-size: 18px;
+  outline: none;
+}
+
+.file_type {
+  display: block;
+  margin-top: 5px;
+  padding: 10px 20px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #444;
+  font-size: 18px;
+  outline: none;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.flex + .flex {
+  margin-left: 30px;
+}
+
+.sensor_id {
+  display: block;
+  margin-left: 10px;
+  padding: 3px 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #444;
+  font-size: 18px;
+  outline: none;
+}
+
+.base_station_id {
+  display: block;
+  margin-left: 10px;
+  padding: 3px 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #444;
+  font-size: 18px;
+  outline: none;
+}
+
+.calibration_file {
+  display: block;
+  margin-left: 10px;
+  padding: 3px 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #444;
+  font-size: 18px;
+  outline: none;
+}
+
+.algorithm_version {
+  display: block;
+  margin-left: 10px;
+  padding: 3px 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #444;
+  font-size: 18px;
+  outline: none;
+}
+
+.label2 {
+  font-size: 16px;
+}
+
+.config_submit {
+  margin-left: 30px;
+  padding: 8px 20px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #444;
+  cursor: pointer;
+  font-size: 16px;
+  outline: none;
 }

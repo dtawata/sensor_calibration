@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
 import Generator from './Generator';
 import Output from './Output';
+import Chart from './Chart';
 
 const App = (props) => {
   const [step, setStep] = useState(1);
@@ -12,6 +13,7 @@ const App = (props) => {
   const [algorithms, setAlgorithms] = useState([]);
   const version = useRef();
   const upload = useRef();
+  const nav = useRef({ step1: 'active', step2: '', step3: '' });
 
   const generateData = async () => {
     axios.get('http://localhost:3000/api/sensor_calibration_data', {
@@ -60,7 +62,7 @@ const App = (props) => {
       upload.current.value = '';
       const date = new Date().toISOString().substring(0, 10);
       setOutputDownloads((prevOutputDownloads) => {
-        return prevOutputDownloads.concat([{name: `sco_${date}.csv`, cta: `${date}: Sensor Calibration Output`, data: res.data}]);
+        return prevOutputDownloads.concat([{name: `sco_${date}_${version.current.value}.csv`, cta: `${date}: Sensor Calibration Output - v${version.current.value}`, data: res.data}]);
       });
     })
   };
@@ -77,7 +79,7 @@ const App = (props) => {
       upload.current.value = '';
       const date = new Date().toISOString().substring(0, 10);
       setOutputDownloads((prevOutputDownloads) => {
-        return prevOutputDownloads.concat([{name: `pvo_${date}.csv`, cta: `${date}: Performance Validation Output`, data: res.data}]);
+        return prevOutputDownloads.concat([{name: `pvo_${date}_${version.current.value}.csv`, cta: `${date}: Performance Validation Output - v${version.current.value}`, data: res.data}]);
       });
     })
   };
@@ -89,40 +91,27 @@ const App = (props) => {
     })
   }, [])
 
+  const updateStep = (section) => {
+    nav.current.step1 = '';
+    nav.current.step2 = '';
+    nav.current.step3 = '';
+    nav.current[`step${section}`] = 'active';
+    setStep(section);
+  };
+
   return (
     <div className='container'>
       <nav>
         <ul>
-          <li onClick={() => { setStep(1); }} className='active'>Step 1: Generate Data</li>
-          <li onClick={() => { setStep(2); }}>Step 2: Get Output</li>
-          <li onClick={() => { setStep(3); }}>Step 3: Analyze Data</li>
+          <li onClick={() => { updateStep(1); }} className={nav.current.step1}>Step 1: Generate Data</li>
+          <li onClick={() => { updateStep(2); }} className={nav.current.step2}>Step 2: Get Output</li>
+          <li onClick={() => { updateStep(3); }} className={nav.current.step3}>Step 3: Analyze Data</li>
         </ul>
       </nav>
       {step === 1 && <Generator date={date} downloads={downloads} generateData={generateData} />}
       {step === 2 && <Output outputDownloads={outputDownloads} algorithms={algorithms} version={version} sendCsv={sendCsv} setCsvFile={setCsvFile} upload={upload} />}
-      {step === 3 && <div>Step 3</div>}
+      {step === 3 && <Chart />}
     </div>
-    // <div className='container'>
-    //   <div className='generator'>
-    //     <h2 className='title'>Data Generator</h2>
-    //     <button onClick={generateData}>Generate Data</button>
-    //     </div>
-    //     <div className='downloads'>
-    //     <h2 className='title'>Downloads</h2>
-    //     {sensorCalibrationData && <div className='download_link'><a href={`data:text/csv;charset=utf-8,${(sensorCalibrationData)}`} download="sensor_calibration_data.csv">Download Sensor Calibration Data</a></div>}
-    //     {baseCalibrationData && <div className='download_link'><a href={`data:text/csv;charset=utf-8,${(baseCalibrationData)}`} download="base_calibration_data.csv">Download Base Calibration Data</a></div>}
-    //     {test && <div className='download_link'><a href={`data:text/csv;charset=utf-8,${(test)}`} download="test.csv">Download Base Test Data</a></div>}
-
-    //     {sensorData && <div className='download_link'><a href={`data:text/csv;charset=utf-8,${(sensorData)}`} download="sensor_data.csv">Download Sensor Data</a></div>}
-    //     </div>
-    //     <div className='upload'>
-    //     <h2 className='title'>Upload</h2>
-    //     <form onSubmit={sendCSV}>
-    //       <input type="file" name="file" onChange={(e) => { getFile(e) }} />
-    //       <button type='submit'>Submit</button>
-    //     </form>
-    //   </div>
-    // </div>
   );
 };
 
