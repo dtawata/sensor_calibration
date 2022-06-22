@@ -63,6 +63,7 @@ const createSensorCalibrationData = async () => {
       const insert = await addSensorCalibrationOutput(entriesSCO);
     }
   }
+  console.log('Done! Mass inserted data successfully into sensor_calibration_data + sensor_calibration_output!');
 }
 
 const createBaseCalibrationData = async () => {
@@ -122,12 +123,12 @@ const createBaseCalibrationData = async () => {
       const insert = await addPerformanceValidationOutput(entriesPVO);
     }
   }
+  console.log('Done! Mass inserted data successfully into base_station_calibration_data + performance_validation_output!');
 };
 
 
 createSensorCalibrationData();
 createBaseCalibrationData();
-console.log('Done! Mass inserted data successfully!');
 
 
 
