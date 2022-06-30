@@ -37,19 +37,37 @@ const Chart = (props) => {
   const calibrationFile = useRef();
   const [algorithmVersions, setAlgorithmVersions] = useState([]);
   const algorithmVersion = useRef();
-
-  const options = {
-    // response: true,
+  const groupBy = useRef();
+  const [options, setOptions] = useState({
     scales: {
       x: {
-        type: 'time',
-        // time: {
-        //   unit: 'second',
-        //   unitStepSize: 10
-        // }
+        type: 'time'
       }
     }
-  };
+  });
+  const accuracyMax = useRef();
+  const [listOfAccuracy, setListOfAccuracy] = useState([]);
+  const [calibrateChartData, setCalibrateChartData] = useState({ datasets: [] });
+  const [calibrateOptions, setCalibrateOptions] =  useState({
+    scales: {
+      x: {
+        type: 'time'
+      }
+    }
+  });
+
+  // const options = {
+  //   // response: true,
+  //   scales: {
+  //     x: {
+  //       type: 'time',
+  //       // time: {
+  //       //   unit: 'second',
+  //       //   unitStepSize: 10
+  //       // }
+  //     }
+  //   }
+  // };
 
   const changeConfig = () => {
     setConfig(fileType.current.value);
@@ -168,39 +186,95 @@ const Chart = (props) => {
   const handleSubmit = () => {
     const file = fileType.current.value;
     if (file === 'scd' || file === 'bcd') {
-      axios.get('/api/chart', {
-        params: {
-          fileType: fileType.current.value,
-          startDate: startDate.current.value,
-          endDate: endDate.current.value,
-          sensorId: sensorId.current.value
-        }
-      })
-      .then((res) => {
-        const xArr = [];
-        const yArr = [];
-        const zArr = [];
-        for (let i = 0; i < res.data.length; i++) {
-          xArr.push({ x: res.data[i].datetime, y: res.data[i].x });
-          yArr.push({ x: res.data[i].datetime, y: res.data[i].y });
-          zArr.push({ x: res.data[i].datetime, y: res.data[i].z });
-        }
-        setChartData({
-          datasets: [{
-            label: 'x',
-            borderColor: 'red',
-            data: xArr
-          }, {
-            label: 'y',
-            borderColor: 'blue',
-            data: yArr
-          }, {
-            label: 'z',
-            borderColor: 'green',
-            data: zArr
-          }]
+      const group = groupBy.current.value;
+      if (group !== '*') {
+        axios.get('/api/chart_by_group', {
+          params: {
+            fileType: fileType.current.value,
+            startDate: startDate.current.value,
+            endDate: endDate.current.value,
+            sensorId: sensorId.current.value,
+            groupBy: groupBy.current.value
+          }
+        })
+        .then((res) => {
+          setOptions({
+            scales: {
+              x: {
+                type: 'time',
+                time: {
+                  unit: group
+                }
+              }
+            }
+          });
+          const xArr = [];
+          const yArr = [];
+          const zArr = [];
+          for (let i = 0; i < res.data.length; i++) {
+            let date = new Date(res.data[i].year, res.data[i].month - 1, res.data[i].day, res.data[i].hour);
+            if (group === 'month') {
+              date = new Date(res.data[i].year, res.data[i].month - 1);
+            } else if (group === 'day') {
+              date = new Date(res.data[i].year, res.data[i].month - 1, res.data[i].day);
+            } else if (group === 'hour') {
+              date = new Date(res.data[i].year, res.data[i].month - 1, res.data[i].day, res.data[i].hour);
+            }
+            xArr.push({ x: date, y: res.data[i].x_avg });
+            yArr.push({ x: date, y: res.data[i].y_avg });
+            zArr.push({ x: date, y: res.data[i].z_avg });
+          }
+          setChartData({
+            datasets: [{
+              label: 'x',
+              borderColor: 'red',
+              data: xArr
+            }, {
+              label: 'y',
+              borderColor: 'blue',
+              data: yArr
+            }, {
+              label: 'z',
+              borderColor: 'green',
+              data: zArr
+            }]
+          });
+        })
+      } else {
+        axios.get('/api/chart', {
+          params: {
+            fileType: fileType.current.value,
+            startDate: startDate.current.value,
+            endDate: endDate.current.value,
+            sensorId: sensorId.current.value
+          }
+        })
+        .then((res) => {
+          const xArr = [];
+          const yArr = [];
+          const zArr = [];
+          for (let i = 0; i < res.data.length; i++) {
+            xArr.push({ x: res.data[i].datetime, y: res.data[i].x });
+            yArr.push({ x: res.data[i].datetime, y: res.data[i].y });
+            zArr.push({ x: res.data[i].datetime, y: res.data[i].z });
+          }
+          setChartData({
+            datasets: [{
+              label: 'x',
+              borderColor: 'red',
+              data: xArr
+            }, {
+              label: 'y',
+              borderColor: 'blue',
+              data: yArr
+            }, {
+              label: 'z',
+              borderColor: 'green',
+              data: zArr
+            }]
+          });
         });
-      });
+      }
     } else if (file === 'sco') {
       axios.get('/api/chart_sco', {
         params: {
@@ -212,6 +286,16 @@ const Chart = (props) => {
         }
       })
       .then((res) => {
+        setOptions({
+          scales: {
+            x: {
+              type: 'time',
+              time: {
+                unit: 'day'
+              }
+            }
+          }
+        });
         const topLeft = [];
         const topMid = [];
         const topRight = [];
@@ -283,12 +367,29 @@ const Chart = (props) => {
         }
       })
       .then((res) => {
+        setOptions({
+          scales: {
+            x: {
+              type: 'time',
+              time: {
+                unit: 'day'
+              }
+            }
+          }
+        });
         const accuracy = [];
         const precision = [];
+        const accuracyThreshold = {};
         for (let i = 0; i < res.data.length; i++) {
+          if (res.data[i].accuracy >= accuracyMax.current.value) {
+            if (!accuracyThreshold[res.data[i].sensor_id]) {
+              accuracyThreshold[res.data[i].sensor_id] = true;
+            }
+          }
           accuracy.push({ x: res.data[i].validation_date, y: res.data[i].accuracy });
           precision.push({ x: res.data[i].validation_date, y: res.data[i].precision });
         }
+        setListOfAccuracy(Object.keys(accuracyThreshold));
         setChartData({
           datasets: [{
             label: 'accuracy',
@@ -304,9 +405,52 @@ const Chart = (props) => {
     }
   };
 
-  useEffect(() => {
-    console.log('chartdata', chartData);
-  }, [chartData])
+  const calibrate = () => {
+    axios.get('/api/chart_by_group_base', {
+      params: {
+        startDate: startDate.current.value,
+        endDate: endDate.current.value,
+        baseStationId: baseStationId.current.value,
+        sensorId: sensorId.current.value,
+      }
+    })
+    .then((res) => {
+      setCalibrateOptions({
+        scales: {
+          x: {
+            type: 'time',
+            time: {
+              unit: 'day'
+            }
+          }
+        }
+      });
+      const xArr = [];
+      const yArr = [];
+      const zArr = [];
+      for (let i = 0; i < res.data.length; i++) {
+        let date = new Date(res.data[i].year, res.data[i].month - 1, res.data[i].day);
+        xArr.push({ x: date, y: res.data[i].x_avg });
+        yArr.push({ x: date, y: res.data[i].y_avg });
+        zArr.push({ x: date, y: res.data[i].z_avg });
+      }
+      setCalibrateChartData({
+        datasets: [{
+          label: 'x',
+          borderColor: 'red',
+          data: xArr
+        }, {
+          label: 'y',
+          borderColor: 'blue',
+          data: yArr
+        }, {
+          label: 'z',
+          borderColor: 'green',
+          data: zArr
+        }]
+      });
+    })
+  };
 
   return (
     <div className='chart'>
@@ -330,12 +474,22 @@ const Chart = (props) => {
               <option value='pvo'>Performance Validation Output</option>
             </select>
           </div>
+          {(config === 'scd' || config === 'bcd') && <div className='sorting_container'>
+            <label className='label'>Group By</label>
+            <select onChange={() => {}} className='sorting_type' ref={groupBy}>
+              <option value='hour'>Hour</option>
+              <option value='day' selected>Day</option>
+              <option value='month'>Month</option>
+              <option value='*'>None (Get All Entries)</option>
+            </select>
+          </div>}
         </div>
         <div className='flex'>
           {config === 'sco' && <div className='flex'>
             <div className='label2'>Calibration Files</div>
             <select onChange={getAlgorithmVersions} className='calibration_file' ref={calibrationFile}>
               <option disabled selected>Select</option>
+              <option value='*'>All</option>
               {calibrationFiles.map((calibrationFile, index) => {
                 return <option key={index} value={calibrationFile.calibration_file}>{calibrationFile.calibration_file}</option>;
               })}
@@ -345,6 +499,7 @@ const Chart = (props) => {
             <div className='label2'>Version</div>
             <select onChange={onAlgorithmSelected} className='algorithm_version' ref={algorithmVersion}>
               <option disabled selected>Select</option>
+              <option value='*'>All</option>
               {algorithmVersions.map((algorithmVersion, index) => {
                 return <option key={index} value={algorithmVersion.algorithm_version}>{algorithmVersion.algorithm_version}</option>;
               })}
@@ -368,12 +523,26 @@ const Chart = (props) => {
               })}
             </select>
           </div>}
+          {config === 'pvo' && <div className='flex'>
+            <div className='label2'>Accuracy</div>
+            <input type='number' className='accuracy' ref={accuracyMax} />
+          </div>}
           {config && <button onClick={handleSubmit} className='config_submit'>Submit</button>}
+          {config === 'pvo' && <button onClick={calibrate} className='config_submit'>Calibrate</button>}
         </div>
+        {config === 'pvo' && <div className='accuracy_title'>Sensors Past Accuracy Threshold</div>}
+        {config === 'pvo' && <div className='list_of_accuracy'>
+          {listOfAccuracy.map((id) => {
+            return <div key={id}>{id}</div>;
+          })}
+        </div>}
       </div>
       <div className='bigchart'>
         <Line options={options} data={chartData} />
       </div>
+      {config === 'pvo' && <div className='calibrate_chart'>
+        <Line options={calibrateOptions} data={calibrateChartData} />
+      </div>}
     </div>
   );
 }

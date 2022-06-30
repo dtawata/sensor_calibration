@@ -5,7 +5,7 @@ const path = require('path');
 const csv = require('fast-csv');
 const { writeToPath } = require('@fast-csv/format');
 const csvUpload = require("express-fileupload");
-const { getSensors, getBaseStations, getAlgorithms, addSensorData, addSensorCalibrationData, addBaseCalibrationData, addSensorCalibrationOutput, addPerformanceValidationOutput, getSensorData, getUniqueSensors, getUniqueBaseStations, getUniqueBaseStationsPVO, getUniqueSensorsBase, getUniqueCalibrationFiles, getUniqueAlgorithmVersionsSCO, getUniqueAlgorithmVersionsPVO, getUniqueSensorsSCO, getSensorCalibrationOutput, getUniqueSensorsBasePVO, getPerfomanceValidationOutput, addSensorDataBase } = require('./lib/db');
+const { getSensors, getBaseStations, getAlgorithms, addSensorData, addSensorCalibrationData, addBaseCalibrationData, addSensorCalibrationOutput, addPerformanceValidationOutput, getSensorData, getUniqueSensors, getUniqueBaseStations, getUniqueBaseStationsPVO, getUniqueSensorsBase, getUniqueCalibrationFiles, getUniqueAlgorithmVersionsSCO, getUniqueAlgorithmVersionsPVO, getUniqueSensorsSCO, getSensorCalibrationOutput, getUniqueSensorsBasePVO, getPerfomanceValidationOutput, addSensorDataBase, getSensorDataGroup, getBaseSensorDataGroup } = require('./lib/db');
 
 app.use(csvUpload());
 app.use(express.static('public'));
@@ -93,9 +93,10 @@ app.get('/api/base_calibration_data', async (req, res) => {
 });
 
 app.post('/api/upload_scd/:version', (req, res) => {
-  const date = new Date().toISOString().substring(0, 10);
+  // const date = new Date().toISOString().substring(0, 10);
   const version = req.params.version;
   const file = req.files.file;
+  const date = file.name.substring(4, 14);
 
   file.mv(path.resolve(__dirname, 'csv', file.name), (err) => {
     if (err) {
@@ -141,9 +142,10 @@ app.post('/api/upload_scd/:version', (req, res) => {
 });
 
 app.post('/api/upload_bcd/:version', (req, res) => {
-  const date = new Date().toISOString().substring(0, 10);
+  // const date = new Date().toISOString().substring(0, 10);
   const version = req.params.version;
   const file = req.files.file;
+  const date = file.name.substring(4, 14);
 
   file.mv(path.resolve(__dirname, 'csv', file.name), (err) => {
     if (err) {
@@ -199,7 +201,7 @@ app.get('/api/chart', async (req, res) => {
 
 app.get('/api/chart_sco', async (req, res) => {
   const { startDate, endDate, calibrationFile, algorithmVersion, sensorId } = req.query;
-  const data = await getSensorCalibrationOutput({ startDate, endDate, calibrationFile, algorithmVersion, sensorId,  });
+  const data = await getSensorCalibrationOutput({ startDate, endDate, calibrationFile, algorithmVersion, sensorId });
   res.send(data);
 });
 
@@ -267,6 +269,19 @@ app.get('/api/unique_algorithm_versions', async (req, res) => {
     const uniqueAlgorithmVersions = await getUniqueAlgorithmVersionsPVO({ start, end });
     res.send(uniqueAlgorithmVersions);
   }
+});
+
+app.get('/api/chart_by_group', async (req, res) => {
+  const { startDate, endDate, fileType, sensorId, groupBy } = req.query;
+  const result = await getSensorDataGroup({ startDate, endDate, sensorId, groupBy });
+  res.send(result);
+});
+
+
+app.get('/api/chart_by_group_base', async (req, res) => {
+  const { startDate, endDate, baseStationId, sensorId } = req.query;
+  const result = await getBaseSensorDataGroup({ startDate, endDate, baseStationId, sensorId });
+  res.send(result);
 });
 
 const port = 3000;

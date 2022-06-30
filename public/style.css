@@ -228,6 +228,10 @@ nav li:hover {
   margin-left: 40px;
 }
 
+.sorting_container {
+  margin-left: 40px;
+}
+
 .label {
   font-size: 16px;
 }
@@ -257,6 +261,17 @@ nav li:hover {
 }
 
 .file_type {
+  display: block;
+  margin-top: 5px;
+  padding: 10px 20px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  color: #444;
+  font-size: 18px;
+  outline: none;
+}
+
+.sorting_type {
   display: block;
   margin-top: 5px;
   padding: 10px 20px;
@@ -333,4 +348,31 @@ nav li:hover {
   cursor: pointer;
   font-size: 16px;
   outline: none;
+}
+
+.accuracy {
+  width: 100px;
+  margin-left: 5px;
+  padding: 2px 5px;
+  font-size: 16px;
+}
+
+.accuracy_title {
+  margin-top: 20px;
+}
+
+.list_of_accuracy {
+  display: flex;
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+
+.list_of_accuracy div {
+  margin: 0 10px;
+}
+
+.calibrate_chart {
+  margin-top: 30px;
 }
